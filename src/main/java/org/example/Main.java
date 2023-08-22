@@ -1,5 +1,6 @@
 package org.example;
 
+import org.example.utils.Utils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -10,6 +11,9 @@ import java.io.IOException;
 import java.util.Properties;
 
 public class Main {
+
+    static String film = Utils.readFileFilmName();
+
     public static void main(String[] args) {
 
         Properties properties = new Properties();
@@ -32,12 +36,21 @@ public class Main {
 
         driver.get(url);
 
-        WebElement element = driver.findElement(By.className("body"));
+        WebElement findFilm = driver.findElement(By.name("kp_query"));
 
-        System.out.println(element.getTagName());
+        WebElement buttonFind = driver.findElement(By.xpath("//*[@id=\"__next\"]/div[1]/div[1]/header/div/div[2]/div[2]/div/form/div/div/button"));
+
+        findFilm.sendKeys(film);
+
+        buttonFind.click();
+
+        WebElement film = driver.findElement(By.xpath("//*[@id=\"block_left_pad\"]/div/div[2]/div/p/a"));
+
+        film.click();
+
+        Utils.sleep(50000);
 
         driver.quit();
-
 
     }
 }
